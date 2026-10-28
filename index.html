@@ -1,544 +1,683 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>找數王 - 動起來 ‧ 咪偷懶</title>
-<!-- iOS App Store & PWA Launch Configuration Tags -->
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="找數王">
-<meta name="theme-color" content="#FF69B4">
-<link rel="apple-touch-icon" href="https://placehold.co/180x180/FF69B4/ffffff?text=找數王">
-<!-- Web App Manifest for Native Install -->
-<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuaLvuaVueeOiSIsCiAgInNob3J0X25hbWUiOiAiaeaLvuaVueeOiSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjRjFGNUY5IiwKICAidGhlbWVfY29sb3IiOiAiI0ZGNjlCNCIKfQ==">
-<!-- Tailwind CSS -->
-<script src="https://cdn.tailwindcss.com"></script>
-<!-- FontAwesome Icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<!-- Google Fonts: Fredoka & Noto Sans TC -->
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
-<script>
-tailwind.config = {
-theme: {
-extend: {
-colors: {
-brand: {
-primary: 'var(--color-primary)',
-primaryDark: 'var(--color-primary-dark)',
-secondary: 'var(--color-secondary)',
-accent: 'var(--color-accent)',
-bg: '#F8FAFC'
-}
-},
-fontFamily: {
-sans: ['Fredoka', 'Noto Sans TC', 'sans-serif'],
-}
-}
-}
-}
-</script>
-<style>
-/* CSS Theme Variables */
-:root {
---color-primary: #FF69B4;
---color-primary-dark: #E05297;
---color-secondary: #3B82F6;
---color-accent: #FFC800;
---theme-bg-gradient: linear-gradient(135deg, #FF69B4 0%, #3B82F6 100%);
---card-border-color: #F1F5F9;
-}
-[data-theme="pink-blue"] {
---color-primary: #FF5E97;
---color-primary-dark: #E0427B;
---color-secondary: #00B2FE;
---color-accent: #FFC800;
---theme-bg-gradient: linear-gradient(135deg, #FF5E97 0%, #00B2FE 100%);
-}
-[data-theme="mint"] {
---color-primary: #10B981;
---color-primary-dark: #059669;
---color-secondary: #06B6D4;
---color-accent: #F59E0B;
---theme-bg-gradient: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
-}
-[data-theme="sunset"] {
---color-primary: #FF6B6B;
---color-primary-dark: #E04848;
---color-secondary: #845EC2;
---color-accent: #FFC75F;
---theme-bg-gradient: linear-gradient(135deg, #FF6B6B 0%, #845EC2 100%);
-}
-[data-theme="purple-blue"] {
---color-primary: #A855F7;
---color-primary-dark: #9333EA;
---color-secondary: #3B82F6;
---color-accent: #F43F5E;
---theme-bg-gradient: linear-gradient(135deg, #A855F7 0%, #3B82F6 100%);
-}
-body {
-font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
-background-color: #F1F5F9;
-touch-action: manipulation;
-padding-top: env(safe-area-inset-top);
-padding-bottom: calc(5rem + env(safe-area-inset-bottom));
--webkit-tap-highlight-color: transparent;
-}
-.theme-bg { background: var(--theme-bg-gradient); }
-.theme-text-primary { color: var(--color-primary); }
-.theme-text-secondary { color: var(--color-secondary); }
-.theme-btn-primary { background-color: var(--color-primary); color: white; }
-.theme-btn-primary:hover { background-color: var(--color-primary-dark); }
-.duo-btn { box-shadow: 0 4px 0 0 rgba(0,0,0,0.2); transition: all 0.1s ease; }
-.duo-btn:active { transform: translateY(4px); box-shadow: 0 0 0 0 rgba(0,0,0,0.2); }
-.duo-card { border-bottom: 4px solid rgba(0,0,0,0.08); }
-.bounce-gentle { animation: bounce 2s infinite; }
-@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>找數王 - 動起來 ‧ 咪偷懶</title>
+
+    <!-- iOS App Store & PWA Launch Configuration Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="找數王">
+    <meta name="theme-color" content="#FF69B4">
+    <link rel="apple-touch-icon" href="https://placehold.co/180x180/FF69B4/ffffff?text=找數王">
+
+    <!-- Web App Manifest for Native Install -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIuaLvuaVueeOiSIsCiAgInNob3J0X25hbWUiOiAiaeaLvuaVueeOiSIsCiAgInN0YXJ0X3VybCI6ICIuIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjRjFGNUY5IiwKICAidGhlbWVfY29sb3IiOiAiI0ZGNjlCNCIKfQ==">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Fredoka & Noto Sans TC -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Noto+Sans+TC:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            primary: 'var(--color-primary)',
+                            primaryDark: 'var(--color-primary-dark)',
+                            secondary: 'var(--color-secondary)',
+                            accent: 'var(--color-accent)',
+                            bg: '#F8FAFC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Fredoka', 'Noto Sans TC', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --color-primary: #FF69B4;      
+            --color-primary-dark: #E05297; 
+            --color-secondary: #3B82F6;    
+            --color-accent: #FFC800;       
+            --theme-bg-gradient: linear-gradient(135deg, #FF69B4 0%, #3B82F6 100%);
+        }
+
+        [data-theme="mint"] {
+            --color-primary: #10B981;
+            --color-primary-dark: #059669;
+            --color-secondary: #06B6D4;
+            --color-accent: #F59E0B;
+            --theme-bg-gradient: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
+        }
+
+        [data-theme="sunset"] {
+            --color-primary: #FF6B6B;
+            --color-primary-dark: #E04848;
+            --color-secondary: #845EC2;
+            --color-accent: #FFC75F;
+            --theme-bg-gradient: linear-gradient(135deg, #FF6B6B 0%, #845EC2 100%);
+        }
+
+        body {
+            font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+            background-color: #F1F5F9;
+            touch-action: manipulation;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+            -webkit-tap-highlight-color: transparent;
+        }
+        .theme-bg { background: var(--theme-bg-gradient); }
+        .theme-text-primary { color: var(--color-primary); }
+        .theme-btn-primary { background-color: var(--color-primary); color: white; }
+        .theme-btn-primary:hover { background-color: var(--color-primary-dark); }
+        .duo-btn { box-shadow: 0 4px 0 0 rgba(0,0,0,0.15); transition: all 0.1s ease; }
+        .duo-btn:active { transform: translateY(3px); box-shadow: 0 0 0 0 rgba(0,0,0,0.15); }
+        .duo-card { border-bottom: 4px solid rgba(0,0,0,0.06); }
+        .bounce-gentle { animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+    </style>
 </head>
 <body data-theme="pink-blue" class="bg-slate-100 text-slate-800 min-h-screen max-w-md mx-auto shadow-2xl relative border-x border-slate-200">
-<!-- TOP NAV BAR -->
-<header class="bg-white sticky top-0 z-40 px-4 py-3 border-b-2 border-slate-200 flex justify-between items-center shadow-sm pt-[calc(0.75rem+env(safe-area-inset-top))]">
-<div class="flex items-center space-x-2">
-<span class="text-3xl leading-none">👑</span>
-<div>
-<span class="font-black text-lg tracking-wide theme-text-primary leading-none block">找數王</span>
-<span class="text-[10px] text-slate-400 font-bold tracking-tight block">動起來 ‧ 咪偷懶</span>
-</div>
-</div>
-<div class="flex items-center space-x-1.5 sm:space-x-2">
-<button onclick="openProfileModal()" class="flex items-center space-x-1 bg-slate-100 hover:bg-slate-200 p-1 pl-1.5 pr-2 rounded-2xl border border-slate-300 transition">
-<span id="userProfileAvatarDisplay" class="text-lg leading-none">🐾</span>
-<span id="userProfileNameDisplay" class="text-[11px] font-bold text-slate-700 hidden sm:inline leading-none">你</span>
-</button>
-<button onclick="openIosInstallModal()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-600 p-1.5 rounded-xl text-xs font-bold border border-emerald-200 flex items-center justify-center transition">
-<i class="fa-solid fa-share-from-square text-sm leading-none"></i>
-</button>
-<button onclick="openThemeModal()" class="bg-pink-50 hover:bg-pink-100 text-pink-600 p-1.5 rounded-xl text-xs font-bold border border-pink-200 flex items-center justify-center transition">
-<i class="fa-solid fa-palette text-sm leading-none"></i>
-</button>
-<div class="flex items-center space-x-1 bg-amber-50 px-2 py-1 rounded-xl border border-amber-200 text-xs font-extrabold text-amber-600">
-<i class="fa-solid fa-fire text-orange-500 text-xs leading-none"></i>
-<span id="userStreak" class="leading-none">3</span>
-</div>
-<div class="flex items-center space-x-1 bg-blue-50 px-2 py-1 rounded-xl border border-blue-200 text-xs font-extrabold text-blue-600">
-<i class="fa-solid fa-bolt text-yellow-500 text-xs leading-none"></i>
-<span id="userXP" class="leading-none">350</span>
-</div>
-<button id="langBtn" onclick="toggleLanguage()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded-xl text-[11px] font-bold border border-slate-300 leading-none">
-廣東話
-</button>
-</div>
-</header>
-<!-- MAIN BODY CONTAINER -->
-<main class="p-4 space-y-4">
-<!-- MASCOT & DYNAMIC BODY PROFILE CARD -->
-<div class="theme-bg p-4 rounded-3xl text-white shadow-md relative overflow-hidden duo-card">
-<div class="flex items-center space-x-3 relative z-10">
-<div id="bodyMascotIcon" class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-4xl shadow-inner bounce-gentle flex-shrink-0">
-🐆
-</div>
-<div>
-<div class="flex items-center space-x-2 mb-1">
-<span id="bodyMascotTitle" class="bg-white/20 text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded-full inline-block">
-迅捷飛豹型 ⚡
-</span>
-</div>
-<p id="mascotMessage" class="font-extrabold text-sm leading-snug">
-「汪汪！今日運動找數未？唔好讓連續紀錄斷呀！」
-</p>
-</div>
-</div>
-</div>
-<!-- HERO LOG WORKOUT CARD -->
-<div class="bg-white rounded-3xl p-5 border-2 border-slate-200 shadow-sm duo-card space-y-3">
-<div class="flex justify-between items-center">
-<div>
-<h2 id="logTitle" class="font-black text-lg text-slate-800">影相打卡 ‧ 運動找數</h2>
-<p id="logSub" class="text-xs text-slate-500 font-bold">影張運動/做運動自拍相，等班 Friend 驗證你找咗數！</p>
-</div>
-<span class="text-3xl">📸</span>
-</div>
-<button onclick="openWorkoutModal()" class="w-full theme-btn-primary font-bold py-3.5 rounded-2xl duo-btn text-base flex items-center justify-center space-x-2">
-<i class="fa-solid fa-plus-circle text-lg"></i>
-<span id="btnLogNow">即刻去做運動找數！</span>
-</button>
-</div>
-<!-- WEEKLY TARGET & HEALTH CALCULATOR -->
-<div class="bg-white rounded-3xl p-4 border-2 border-slate-200 shadow-sm duo-card space-y-3">
-<div class="flex justify-between items-center border-b border-slate-100 pb-2">
-<div class="flex items-center space-x-2">
-<span class="text-2xl">🎯</span>
-<div>
-<h3 class="font-black text-base text-slate-800">本週健康運動目標 Target</h3>
-<p class="text-[10px] text-slate-400 font-bold" id="targetSubHint">根據身高體重自動計算建議量</p>
-</div>
-</div>
-<button onclick="openProfileModal()" class="text-[10px] bg-slate-100 hover:bg-slate-200 font-bold text-slate-600 px-2 py-1 rounded-xl">
-修改身高體重
-</button>
-</div>
-<div class="flex items-center space-x-4">
-<div class="relative w-16 h-16 flex items-center justify-center flex-shrink-0">
-<svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
-<path class="text-slate-100" stroke-width="4" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-<path id="targetCirclePath" class="text-pink-500 transition-all duration-500" stroke-linecap="round" stroke-dasharray="0, 100" stroke-width="4" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-</svg>
-<span id="targetPercentText" class="absolute text-xs font-black text-slate-800">0%</span>
-</div>
-<div class="flex-1 space-y-1">
-<div class="flex justify-between text-xs font-bold text-slate-700">
-<span>本週累計：<strong id="weeklyMinsDone" class="theme-text-primary">75</strong> 分鐘</span>
-<span>目標：<strong id="weeklyMinsTarget">150</strong> 分鐘</span>
-</div>
-<div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden border border-slate-200">
-<div id="targetProgressBar" class="bg-gradient-to-r from-pink-500 to-blue-500 h-full rounded-full transition-all duration-500" style="width: 50%;"></div>
-</div>
-<p id="targetAdviceMsg" class="text-[10px] font-bold text-slate-400">距離健康標竿仲差 75 分鐘，加油找數！</p>
-</div>
-</div>
-</div>
-<!-- MONTHLY CALENDAR MILESTONE VIEW WITH MASCOT STAMPS -->
-<div class="bg-white rounded-3xl p-4 border-2 border-slate-200 shadow-sm duo-card space-y-3">
-<div class="flex justify-between items-center border-b border-slate-100 pb-2">
-<div class="flex items-center space-x-2">
-<span class="text-2xl">📅</span>
-<div>
-<h3 class="font-black text-base text-slate-800">運動找數里程碑日曆</h3>
-<p class="text-[10px] text-slate-400 font-bold">帶有專屬吉祥物印章嘅打卡日！</p>
-</div>
-</div>
-<span id="calendarMonthLabel" class="text-xs font-extrabold text-pink-600 bg-pink-50 px-2.5 py-1 rounded-xl border border-pink-200">2026年 10月</span>
-</div>
-<div class="grid grid-cols-7 gap-1 text-center font-bold text-xs text-slate-400 py-1">
-<span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
-</div>
-<div id="calendarDaysGrid" class="grid grid-cols-7 gap-1.5">
-<!-- Dynamically populated monthly calendar -->
-</div>
-</div>
-<!-- WORKOUT FEED & LOCATION WALL -->
-<div class="space-y-3">
-<div class="flex justify-between items-center">
-<h3 id="feedTitle" class="font-black text-base text-slate-800 flex items-center space-x-1.5">
-<span>隊友找數動態 Wall</span>
-<span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">Live</span>
-</h3>
-<div class="flex space-x-1 text-[11px] font-bold">
-<button onclick="filterFeedByLocation('all')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-2 py-0.5 rounded-lg">全部</button>
-<button onclick="filterFeedByLocation('gym')" class="bg-rose-100 hover:bg-rose-200 text-rose-700 px-2 py-0.5 rounded-lg">健身室</button>
-<button onclick="filterFeedByLocation('outdoor')" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-700 px-2 py-0.5 rounded-lg">戶外</button>
-</div>
-</div>
-<div id="workoutFeed" class="space-y-3">
-<!-- Dynamically populated posts -->
-</div>
-</div>
-</main>
-<!-- BOTTOM NAVIGATION BAR -->
-<nav class="bg-white fixed bottom-0 left-0 right-0 max-w-md mx-auto border-t-2 border-slate-200 px-6 py-2 flex justify-around items-center z-40 pb-[calc(0.5rem+env(safe-area-inset-bottom))]">
-<button onclick="scrollToTop()" class="flex flex-col items-center text-pink-500 font-bold">
-<i class="fa-solid fa-house-chimney text-xl"></i>
-<span class="text-[10px] mt-0.5" id="navHome">主頁</span>
-</button>
-<button onclick="openWorkoutModal()" class="flex flex-col items-center text-slate-400 hover:text-pink-500 font-bold">
-<i class="fa-solid fa-camera text-xl"></i>
-<span class="text-[10px] mt-0.5" id="navLog">交數打卡</span>
-</button>
-<button onclick="openProfileModal()" class="flex flex-col items-center text-slate-400 hover:text-pink-500 font-bold">
-<i class="fa-solid fa-user-gear text-xl"></i>
-<span class="text-[10px] mt-0.5">個人檔案</span>
-</button>
-</nav>
-<!-- USER PROFILE & BODY METRICS MODAL -->
-<div id="profileModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
-<div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-[90vh] overflow-y-auto">
-<div class="flex justify-between items-center border-b pb-3">
-<div class="flex items-center space-x-2">
-<span class="text-2xl">👤</span>
-<h3 class="font-bold text-lg text-slate-800">設定個人檔案 & 身高體重</h3>
-</div>
-<button onclick="closeProfileModal()" class="text-slate-400 hover:text-slate-600">
-<i class="fa-solid fa-xmark text-xl"></i>
-</button>
-</div>
-<div class="flex flex-col items-center justify-center space-y-2 py-2">
-<div class="relative">
-<div id="profileAvatarPreview" class="w-20 h-20 rounded-3xl bg-pink-100 border-4 border-pink-400 flex items-center justify-center text-4xl shadow-md overflow-hidden">
-🐾
-</div>
-<button onclick="document.getElementById('profilePhotoInput').click()" class="absolute -bottom-1 -right-1 bg-pink-500 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs shadow duo-btn">
-<i class="fa-solid fa-camera"></i>
-</button>
-</div>
-<input type="file" id="profilePhotoInput" accept="image/*" onchange="handleProfilePhotoUpload(event)" class="hidden">
-</div>
-<div class="space-y-3">
-<div>
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">隊友稱呼 Display Name</label>
-<input type="text" id="profileNameInput" placeholder="例如：找數隊長 / 阿傑" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2.5 text-xs font-bold text-slate-700 outline-none focus:border-pink-500">
-</div>
-<div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-100">
-<div>
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">身高 (Height cm)</label>
-<input type="number" id="profileHeightInput" placeholder="170" value="170" onchange="calculateHealthTarget()" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2 text-xs font-bold text-slate-700 outline-none focus:border-pink-500">
-</div>
-<div>
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">體重 (Weight kg)</label>
-<input type="number" id="profileWeightInput" placeholder="65" value="65" onchange="calculateHealthTarget()" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2 text-xs font-bold text-slate-700 outline-none focus:border-pink-500">
-</div>
-</div>
-</div>
-<button onclick="saveUserProfile()" class="w-full theme-btn-primary font-bold py-3.5 rounded-2xl duo-btn text-sm flex items-center justify-center space-x-2">
-<i class="fa-solid fa-floppy-disk"></i>
-<span>儲存個人檔案</span>
-</button>
-</div>
-</div>
-<!-- WORKOUT LOGGING MODAL -->
-<div id="workoutModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
-<div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-[90vh] overflow-y-auto">
-<div class="flex justify-between items-center border-b pb-3">
-<div class="flex items-center space-x-2">
-<span class="text-2xl leading-none">🏃</span>
-<h3 class="font-bold text-xl text-slate-800 leading-none" id="modalTitle">記錄今日運動找數</h3>
-</div>
-<button onclick="closeWorkoutModal()" class="text-slate-400 hover:text-slate-600 p-1">
-<i class="fa-solid fa-xmark text-xl leading-none"></i>
-</button>
-</div>
-<!-- Categories Grid -->
-<div>
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">選擇運動種類</label>
-<div class="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto pr-1">
-<button type="button" onclick="selectType(this, 'Volleyball', '🏐')" class="workout-type-btn p-2.5 rounded-2xl border-2 border-slate-200 text-left flex items-center space-x-2 font-bold text-xs text-slate-700 bg-slate-50">
-<span class="text-lg leading-none">🏐</span>
-<span class="type-name leading-tight">排球 Volleyball</span>
-</button>
-<button type="button" onclick="selectType(this, 'Pickleball', '🏓')" class="workout-type-btn p-2.5 rounded-2xl border-2 border-slate-200 text-left flex items-center space-x-2 font-bold text-xs text-slate-700 bg-slate-50">
-<span class="text-lg leading-none">🏓</span>
-<span class="type-name leading-tight">匹克球 Pickleball</span>
-</button>
-<button type="button" onclick="selectType(this, 'Chest & Arms', '💪')" class="workout-type-btn p-2.5 rounded-2xl border-2 border-pink-500 bg-pink-50 text-left flex items-center space-x-2 font-bold text-xs text-slate-700">
-<span class="text-lg leading-none">💪</span>
-<span class="type-name leading-tight">胸肌同手臂</span>
-</button>
-<button type="button" onclick="selectType(this, 'Cardio & Run', '🏃')" class="workout-type-btn p-2.5 rounded-2xl border-2 border-slate-200 text-left flex items-center space-x-2 font-bold text-xs text-slate-700 bg-slate-50">
-<span class="text-lg leading-none">🏃</span>
-<span class="type-name leading-tight">有氧跑步/路跑</span>
-</button>
-</div>
-</div>
-<!-- Custom Sport Input -->
-<div>
-<label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">自訂運動項目 Custom Sport</label>
-<input type="text" id="customSportText" placeholder="例如：躍動跳舞 / 游自由式" oninput="handleCustomSportInput(this.value)" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2 text-xs font-bold text-slate-700 outline-none focus:border-pink-500">
-</div>
-<!-- Duration & Calorie -->
-<div>
-<div class="flex justify-between items-center mb-1">
-<label class="text-xs font-bold text-slate-500 uppercase tracking-wider">運動時間</label>
-<span class="text-sm font-bold theme-text-primary" id="durationValue">45 分鐘</span>
-</div>
-<input type="range" min="15" max="180" step="15" value="45" id="durationInput" oninput="updateDuration(this.value)" class="w-full accent-pink-500 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
-<div class="mt-2 p-3 bg-pink-50/80 rounded-2xl border border-pink-200 flex items-center justify-between">
-<div class="flex items-center space-x-2">
-<span class="text-2xl leading-none">🥧</span>
-<div>
-<p class="text-[11px] font-extrabold text-slate-800 leading-tight">估算消耗：<span id="calorieValue" class="text-pink-600 font-black">270</span> kcal</p>
-<p class="text-[10px] font-bold text-slate-500 leading-tight" id="foodEquivalentText">相等於抵銷咗 1.2 個葡撻 / 蛋撻</p>
-</div>
-</div>
-</div>
-</div>
-<!-- GPS Location Picker -->
-<div>
-<div class="flex justify-between items-center mb-1.5">
-<label class="text-xs font-bold text-slate-500 uppercase tracking-wider">打卡地點 Location</label>
-<button type="button" onclick="detectGPSLocation()" class="text-[10px] bg-blue-50 text-blue-600 font-bold px-2.5 py-1 rounded-xl border border-blue-200 flex items-center space-x-1">
-<i class="fa-solid fa-crosshairs text-xs"></i>
-<span>GPS 自動定位</span>
-</button>
-</div>
-<select id="locationSelect" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl p-2.5 text-xs font-bold text-slate-700 outline-none">
-<option value="📍 Pure Fitness (蘭桂坊/icbc)">📍 Pure Fitness (健身室)</option>
-<option value="📍 維多利亞公園 Victoria Park">📍 維多利亞公園 (戶外跑)</option>
-<option value="📍 觀塘海濱花園 Promenade">📍 觀塘海濱花園</option>
-</select>
-</div>
-<!-- Submit Button -->
-<button onclick="submitWorkout()" class="w-full theme-btn-primary font-bold py-3.5 rounded-2xl duo-btn text-base flex items-center justify-center space-x-2">
-<i class="fa-solid fa-check"></i>
-<span>完成找數！領取 +50 XP</span>
-</button>
-</div>
-</div>
-<!-- THEME SELECTION MODAL -->
-<div id="themeModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
-<div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-4">
-<div class="flex justify-between items-center border-b pb-3">
-<h3 class="font-bold text-lg text-slate-800">選擇 App 主題色彩</h3>
-<button onclick="closeThemeModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
-</div>
-<div class="grid grid-cols-2 gap-3 text-xs font-bold">
-<button onclick="changeAppTheme('pink-blue')" class="p-3 rounded-2xl border-2 border-pink-400 bg-pink-50 text-pink-600 duo-btn">粉紅/寶藍</button>
-<button onclick="changeAppTheme('mint')" class="p-3 rounded-2xl border-2 border-emerald-400 bg-emerald-50 text-emerald-600 duo-btn">薄荷青綠</button>
-</div>
-</div>
-</div>
-<!-- iOS INSTALL MODAL -->
-<div id="iosInstallModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
-<div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-4">
-<div class="flex justify-between items-center border-b pb-3">
-<h3 class="font-bold text-lg text-slate-800">安裝至 iPhone 主畫面</h3>
-<button onclick="closeIosInstallModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
-</div>
-<div class="space-y-2 text-xs text-slate-600 font-semibold">
-<p>1. 用 <strong>Safari 瀏覽器</strong> 開啟本連結。</p>
-<p>2. 點擊 Safari 底部選單嘅 <strong>分享按鈕 <i class="fa-solid fa-share-from-square text-blue-500"></i></strong>。</p>
-<p>3. 選擇 <strong>「加至主畫面」 (Add to Home Screen)</strong>。</p>
-</div>
-</div>
-</div>
-<!-- TOAST NOTIFICATION SYSTEM -->
-<div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-4 py-2.5 rounded-full font-bold text-xs shadow-xl hidden z-50 flex items-center space-x-2">
-<span id="toastMsg">Notification</span>
-</div>
-<!-- APPLICATION LOGIC SCRIPTS -->
-<script>
-let currentLang = 'cantonese';
-let userStreak = 3;
-let userXP = 350;
-let userProfile = { name: '你', avatar: '🐾', height: 170, weight: 65 };
-let weeklyMinsDone = 75;
-let weeklyTargetMins = 150;
-let loggedCalendarDates = [12, 15, 18, 21, 24, 27];
-let selectedCategory = "Volleyball";
-let selectedCategoryEmoji = "🏐";
-let selectedDuration = 45;
-let MET = 5.0;
-const sportMETs = {
-'Volleyball': 5.0,
-'Pickleball': 6.0,
-'Chest & Arms': 6.0,
-'Cardio & Run': 8.5
-};
-let feedPosts = [
-{ id: 101, user: 'Alex', avatar: '🐶', type: 'Cardio & Run', emoji: '🏃', duration: 45, location: '📍 維多利亞公園 Victoria Park', photo: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=400&q=80', time: '10分鐘前' }
-];
-function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
-function openWorkoutModal() { document.getElementById('workoutModal').classList.remove('hidden'); }
-function closeWorkoutModal() { document.getElementById('workoutModal').classList.add('hidden'); }
-function openProfileModal() { document.getElementById('profileModal').classList.remove('hidden'); }
-function closeProfileModal() { document.getElementById('profileModal').classList.add('hidden'); }
-function openThemeModal() { document.getElementById('themeModal').classList.remove('hidden'); }
-function closeThemeModal() { document.getElementById('themeModal').classList.add('hidden'); }
-function openIosInstallModal() { document.getElementById('iosInstallModal').classList.remove('hidden'); }
-function closeIosInstallModal() { document.getElementById('iosInstallModal').classList.add('hidden'); }
-function showToast(msg) {
-const toast = document.getElementById('toast');
-document.getElementById('toastMsg').innerText = msg;
-toast.classList.remove('hidden');
-setTimeout(() => toast.classList.add('hidden'), 2500);
-}
-function calculateHealthTarget() {
-const hInM = userProfile.height / 100;
-const bmi = userProfile.weight / (hInM * hInM);
-const iconEl = document.getElementById('bodyMascotIcon');
-const titleEl = document.getElementById('bodyMascotTitle');
-if (bmi < 18.5) {
-iconEl.innerText = "🐿️";
-titleEl.innerText = "靈巧松鼠型 ⚡";
-} else if (bmi >= 18.5 && bmi < 23) {
-iconEl.innerText = "🐆";
-titleEl.innerText = "迅捷飛豹型 ⚡";
-} else if (bmi >= 23 && bmi < 25) {
-iconEl.innerText = "🐻";
-titleEl.innerText = "強壯熊貓型 🐻";
-} else {
-iconEl.innerText = "🐼";
-titleEl.innerText = "重量級功夫熊貓 🐼";
-}
-weeklyTargetMins = bmi >= 23 ? 180 : 150;
-updateTargetUI();
-}
-function updateTargetUI() {
-const pct = Math.min(100, Math.round((weeklyMinsDone / weeklyTargetMins) * 100));
-document.getElementById('weeklyMinsDone').innerText = weeklyMinsDone;
-document.getElementById('weeklyMinsTarget').innerText = weeklyTargetMins;
-document.getElementById('targetProgressBar').style.width = pct + '%';
-document.getElementById('targetPercentText').innerText = pct + '%';
-document.getElementById('targetCirclePath').setAttribute('stroke-dasharray', ⁠${pct}, 100⁠);
-}
-function renderMonthlyCalendar() {
-const grid = document.getElementById('calendarDaysGrid');
-if (!grid) return;
-let html = '';
-for (let i = 0; i < 3; i++) html += ⁠<div class="p-2 text-slate-200 text-center font-bold text-xs">-</div>⁠;
-const currentMascot = document.getElementById('bodyMascotIcon').innerText || "🐾";
-for (let day = 1; day <= 31; day++) {
-const isLogged = loggedCalendarDates.includes(day);
-if (isLogged) {
-html += ⁠<div class="bg-pink-100 border-2 border-pink-400 rounded-2xl p-1 flex flex-col items-center justify-center text-xs font-black text-pink-700 shadow-sm"> <span>${day}</span> <span class="text-xs leading-none mt-0.5">${currentMascot}</span> </div>⁠;
-} else {
-html += ⁠<div class="bg-slate-50 border border-slate-200 rounded-2xl p-1.5 flex flex-col items-center justify-center text-xs font-bold text-slate-400"> <span>${day}</span> </div>⁠;
-}
-}
-grid.innerHTML = html;
-}
-function selectType(btn, name, emoji) {
-selectedCategory = name;
-selectedCategoryEmoji = emoji;
-MET = sportMETs[name] || 6.0;
-calculateCalories();
-}
-function updateDuration(val) {
-selectedDuration = parseInt(val);
-document.getElementById('durationValue').innerText = val + " 分鐘";
-calculateCalories();
-}
-function calculateCalories() {
-const hours = selectedDuration / 60;
-const weight = userProfile.weight || 65;
-const cals = Math.round(MET * weight * hours);
-document.getElementById('calorieValue').innerText = cals;
-const eggTarts = (cals / 220).toFixed(1);
-document.getElementById('foodEquivalentText').innerText = ⁠相等於抵銷咗 ${eggTarts} 個葡撻 / 蛋撻 🥧⁠;
-}
-function detectGPSLocation() {
-if (navigator.geolocation) {
-navigator.geolocation.getCurrentPosition((pos) => {
-const loc = ⁠📍 GPS (${pos.coords.latitude.toFixed(3)}, ${pos.coords.longitude.toFixed(3)})⁠;
-showToast('已取得 GPS 定位：' + loc);
-});
-}
-}
-function submitWorkout() {
-userStreak += 1;
-userXP += 50;
-weeklyMinsDone += selectedDuration;
-loggedCalendarDates.push(new Date().getDate());
-document.getElementById('userStreak').innerText = userStreak;
-document.getElementById('userXP').innerText = userXP;
-closeWorkoutModal();
-updateTargetUI();
-renderMonthlyCalendar();
-showToast('🎉 恭喜完成運動找數！+50 XP');
-}
-function saveUserProfile() {
-const h = parseFloat(document.getElementById('profileHeightInput').value) || 170;
-const w = parseFloat(document.getElementById('profileWeightInput').value) || 65;
-userProfile.height = h;
-userProfile.weight = w;
-calculateHealthTarget();
-renderMonthlyCalendar();
-closeProfileModal();
-showToast('個人檔案已更新！');
-}
-window.onload = function() {
-calculateHealthTarget();
-renderMonthlyCalendar();
-};
-</script>
+
+    <!-- TOP NAV BAR -->
+    <header class="bg-white sticky top-0 z-40 px-4 py-3 border-b-2 border-slate-200 flex justify-between items-center shadow-sm">
+        <div class="flex items-center space-x-2">
+            <span class="text-3xl leading-none">👑</span>
+            <div>
+                <span class="font-black text-lg tracking-wide theme-text-primary leading-none block">找數王</span>
+                <span class="text-[10px] text-slate-400 font-bold tracking-tight block" id="headerTagline">動起來 ‧ 咪偷懶</span>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-1.5">
+            <button onclick="openProfileModal()" class="flex items-center space-x-1 bg-slate-100 hover:bg-slate-200 p-1 pl-1.5 pr-2 rounded-2xl border border-slate-300 transition">
+                <span id="userProfileAvatarDisplay" class="text-lg leading-none">🐾</span>
+                <span id="userProfileNameDisplay" class="text-[11px] font-bold text-slate-700 hidden sm:inline leading-none">你</span>
+            </button>
+
+            <button onclick="openIosInstallModal()" class="bg-emerald-50 hover:bg-emerald-100 text-emerald-600 p-1.5 rounded-xl text-xs font-bold border border-emerald-200 transition">
+                <i class="fa-solid fa-share-from-square text-sm leading-none"></i>
+            </button>
+
+            <button onclick="openThemeModal()" class="bg-pink-50 hover:bg-pink-100 text-pink-600 p-1.5 rounded-xl text-xs font-bold border border-pink-200 transition">
+                <i class="fa-solid fa-palette text-sm leading-none"></i>
+            </button>
+
+            <div class="flex items-center space-x-1 bg-amber-50 px-2 py-1 rounded-xl border border-amber-200 text-xs font-extrabold text-amber-600">
+                <i class="fa-solid fa-fire text-orange-500 text-xs leading-none"></i>
+                <span id="userStreak" class="leading-none">3</span>
+            </div>
+
+            <div class="flex items-center space-x-1 bg-blue-50 px-2 py-1 rounded-xl border border-blue-200 text-xs font-extrabold text-blue-600">
+                <i class="fa-solid fa-bolt text-yellow-500 text-xs leading-none"></i>
+                <span id="userXP" class="leading-none">350</span>
+            </div>
+
+            <button id="langBtn" onclick="toggleLanguage()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-2 py-1 rounded-xl text-[11px] font-bold border border-slate-300 leading-none">
+                廣東話
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTAINER -->
+    <main class="p-4 space-y-4">
+
+        <!-- MASCOT CARD -->
+        <div class="theme-bg p-4 rounded-3xl text-white shadow-md relative overflow-hidden duo-card">
+            <div class="flex items-center space-x-3 relative z-10">
+                <div id="bodyMascotIcon" class="w-16 h-16 bg-white/20 backdrop-blur-md rounded-2xl flex items-center justify-center text-4xl shadow-inner bounce-gentle flex-shrink-0">
+                    🐆
+                </div>
+                <div>
+                    <div class="flex items-center space-x-2 mb-1">
+                        <span id="bodyMascotTitle" class="bg-white/20 text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded-full inline-block">
+                            迅捷飛豹型 ⚡
+                        </span>
+                    </div>
+                    <p id="mascotMessage" class="font-extrabold text-sm leading-snug">
+                        「汪汪！今日運動找數未？唔好讓連續紀錄斷呀！」
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- HERO LOG WORKOUT CARD -->
+        <div class="bg-white rounded-3xl p-5 border-2 border-slate-200 shadow-sm duo-card space-y-3">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h2 id="logTitle" class="font-black text-lg text-slate-800">影相打卡 ‧ 運動找數</h2>
+                    <p id="logSub" class="text-xs text-slate-500 font-bold">影張運動/做運動自拍相，等班 Friend 驗證你找咗數！</p>
+                </div>
+                <span class="text-3xl">📸</span>
+            </div>
+
+            <button onclick="openWorkoutModal()" class="w-full theme-btn-primary font-bold py-3.5 rounded-2xl duo-btn text-base flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-plus-circle text-lg"></i>
+                <span id="btnLogNow">即刻去做運動找數！</span>
+            </button>
+        </div>
+
+        <!-- WEEKLY TARGET & HEALTH CALCULATOR -->
+        <div class="bg-white rounded-3xl p-4 border-2 border-slate-200 shadow-sm duo-card space-y-3">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl">🎯</span>
+                    <div>
+                        <h3 class="font-black text-base text-slate-800" id="targetTitle">本週健康運動目標 Target</h3>
+                        <p class="text-[10px] text-slate-400 font-bold" id="targetSubHint">根據身高體重自動計算建議量</p>
+                    </div>
+                </div>
+                <button onclick="openProfileModal()" class="text-[10px] bg-slate-100 hover:bg-slate-200 font-bold text-slate-600 px-2 py-1 rounded-xl">
+                    修改身高體重
+                </button>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <div class="relative w-16 h-16 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
+                        <path class="text-slate-100" stroke-width="4" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        <path id="targetCirclePath" class="text-pink-500 transition-all duration-500" stroke-linecap="round" stroke-dasharray="0, 100" stroke-width="4" stroke="currentColor" fill="none" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                    </svg>
+                    <span id="targetPercentText" class="absolute text-xs font-black text-slate-800">50%</span>
+                </div>
+
+                <div class="flex-1 space-y-1">
+                    <div class="flex justify-between text-xs font-bold text-slate-700">
+                        <span>本週累計：<strong id="weeklyMinsDone" class="theme-text-primary">75</strong> 分鐘</span>
+                        <span>目標：<strong id="weeklyMinsTarget">150</strong> 分鐘</span>
+                    </div>
+                    <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden border border-slate-200">
+                        <div id="targetProgressBar" class="bg-gradient-to-r from-pink-500 to-blue-500 h-full rounded-full transition-all duration-500" style="width: 50%;"></div>
+                    </div>
+                    <p id="targetAdviceMsg" class="text-[10px] font-bold text-slate-400">距離健康標竿仲差 75 分鐘，加油找數！</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- MONTHLY CALENDAR MILESTONE VIEW -->
+        <div class="bg-white rounded-3xl p-4 border-2 border-slate-200 shadow-sm duo-card space-y-3">
+            <div class="flex justify-between items-center border-b border-slate-100 pb-2">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl">📅</span>
+                    <div>
+                        <h3 class="font-black text-base text-slate-800" id="calendarTitle">運動找數里程碑日曆</h3>
+                        <p class="text-[10px] text-slate-400 font-bold">帶有專屬吉祥物印章嘅打卡日！</p>
+                    </div>
+                </div>
+                <span id="calendarMonthLabel" class="text-xs font-extrabold text-pink-600 bg-pink-50 px-2.5 py-1 rounded-xl border border-pink-200">2026年 10月</span>
+            </div>
+
+            <div class="grid grid-cols-7 gap-1 text-center font-bold text-xs text-slate-400 py-1">
+                <span>日</span><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span>
+            </div>
+            <div id="calendarDaysGrid" class="grid grid-cols-7 gap-1.5">
+                <!-- Dynamically populated monthly calendar -->
+            </div>
+        </div>
+
+        <!-- WORKOUT FEED -->
+        <div class="space-y-3">
+            <div class="flex justify-between items-center">
+                <h3 id="feedTitle" class="font-black text-base text-slate-800 flex items-center space-x-1.5">
+                    <span>隊友找數動態 Wall</span>
+                    <span class="text-xs font-bold text-blue-500 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">Live</span>
+                </h3>
+
+                <div class="flex space-x-1 text-[11px] font-bold">
+                    <button onclick="filterFeedByLocation('all')" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-2 py-0.5 rounded-lg">全部</button>
+                    <button onclick="filterFeedByLocation('gym')" class="bg-rose-100 hover:bg-rose-200 text-rose-700 px-2 py-0.5 rounded-lg">健身室</button>
+                    <button onclick="filterFeedByLocation('outdoor')" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-700 px-2 py-0.5 rounded-lg">戶外</button>
+                </div>
+            </div>
+
+            <div id="workoutFeed" class="space-y-3">
+                <!-- Dynamically populated posts -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- BOTTOM NAVIGATION BAR -->
+    <nav class="bg-white fixed bottom-0 left-0 right-0 max-w-md mx-auto border-t-2 border-slate-200 px-6 py-2 flex justify-around items-center z-40 pb-[calc(0.5rem+env(safe-area-inset-bottom))]">
+        <button onclick="scrollToTop()" class="flex flex-col items-center text-pink-500 font-bold">
+            <i class="fa-solid fa-house-chimney text-xl"></i>
+            <span class="text-[10px] mt-0.5" id="navHome">主頁</span>
+        </button>
+        <button onclick="openWorkoutModal()" class="flex flex-col items-center text-slate-400 hover:text-pink-500 font-bold">
+            <i class="fa-solid fa-camera text-xl"></i>
+            <span class="text-[10px] mt-0.5" id="navLog">交數打卡</span>
+        </button>
+        <button onclick="openProfileModal()" class="flex flex-col items-center text-slate-400 hover:text-pink-500 font-bold">
+            <i class="fa-solid fa-user-gear text-xl"></i>
+            <span class="text-[10px] mt-0.5">個人檔案</span>
+        </button>
+    </nav>
+
+    <!-- USER PROFILE MODAL -->
+    <div id="profileModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center border-b pb-3">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl">👤</span>
+                    <h3 class="font-bold text-lg text-slate-800">設定個人檔案 & 身高體重</h3>
+                </div>
+                <button onclick="closeProfileModal()" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <div class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">隊友稱呼 Display Name</label>
+                    <input type="text" id="profileNameInput" placeholder="例如：找數隊長 / 阿傑" value="你" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2.5 text-xs font-bold text-slate-700 outline-none focus:border-pink-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 pt-1 border-t border-slate-100">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">身高 (Height cm)</label>
+                        <input type="number" id="profileHeightInput" placeholder="170" value="170" onchange="calculateHealthTarget()" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2 text-xs font-bold text-slate-700 outline-none focus:border-pink-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">體重 (Weight kg)</label>
+                        <input type="number" id="profileWeightInput" placeholder="65" value="65" onchange="calculateHealthTarget()" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2 text-xs font-bold text-slate-700 outline-none focus:border-pink-500">
+                    </div>
+                </div>
+            </div>
+
+            <button onclick="saveUserProfile()" class="w-full theme-btn-primary font-bold py-3.5 rounded-2xl duo-btn text-sm flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-floppy-disk"></i>
+                <span>儲存個人檔案</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- WORKOUT LOGGING MODAL -->
+    <div id="workoutModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-4 max-h-[90vh] overflow-y-auto">
+            
+            <div class="flex justify-between items-center border-b pb-3">
+                <div class="flex items-center space-x-2">
+                    <span class="text-2xl leading-none">🏃</span>
+                    <h3 class="font-bold text-xl text-slate-800 leading-none" id="modalTitle">記錄今日運動找數</h3>
+                </div>
+                <button onclick="closeWorkoutModal()" class="text-slate-400 hover:text-slate-600 p-1">
+                    <i class="fa-solid fa-xmark text-xl leading-none"></i>
+                </button>
+            </div>
+
+            <!-- Categories Grid -->
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">選擇運動種類</label>
+                <div class="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto pr-1">
+                    <button type="button" onclick="selectType(this, 'Volleyball', '🏐')" class="workout-type-btn p-2.5 rounded-2xl border-2 border-slate-200 text-left flex items-center space-x-2 font-bold text-xs text-slate-700 bg-slate-50">
+                        <span class="text-lg leading-none">🏐</span>
+                        <span class="type-name leading-tight">排球 Volleyball</span>
+                    </button>
+                    <button type="button" onclick="selectType(this, 'Pickleball', '🏓')" class="workout-type-btn p-2.5 rounded-2xl border-2 border-slate-200 text-left flex items-center space-x-2 font-bold text-xs text-slate-700 bg-slate-50">
+                        <span class="text-lg leading-none">🏓</span>
+                        <span class="type-name leading-tight">匹克球 Pickleball</span>
+                    </button>
+                    <button type="button" onclick="selectType(this, 'Chest & Arms', '💪')" class="workout-type-btn p-2.5 rounded-2xl border-2 border-pink-500 bg-pink-50 text-left flex items-center space-x-2 font-bold text-xs text-slate-700">
+                        <span class="text-lg leading-none">💪</span>
+                        <span class="type-name leading-tight">胸肌同手臂</span>
+                    </button>
+                    <button type="button" onclick="selectType(this, 'Cardio & Run', '🏃')" class="workout-type-btn p-2.5 rounded-2xl border-2 border-slate-200 text-left flex items-center space-x-2 font-bold text-xs text-slate-700 bg-slate-50">
+                        <span class="text-lg leading-none">🏃</span>
+                        <span class="type-name leading-tight">有氧跑步/路跑</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Custom Sport Input -->
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">自訂運動項目 Custom Sport</label>
+                <input type="text" id="customSportText" placeholder="例如：躍動跳舞 / 游自由式" oninput="handleCustomSportInput(this.value)" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl px-3 py-2 text-xs font-bold text-slate-700 outline-none focus:border-pink-500">
+            </div>
+
+            <!-- Photo Upload Field -->
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">上傳打卡相片 Upload Photo</label>
+                <input type="file" id="workoutPhotoInput" accept="image/*" class="w-full text-xs font-bold text-slate-600 border-2 border-slate-200 rounded-2xl p-2 bg-slate-50">
+            </div>
+
+            <!-- Duration & Calorie -->
+            <div>
+                <div class="flex justify-between items-center mb-1">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">運動時間</label>
+                    <span class="text-sm font-bold theme-text-primary" id="durationValue">45 分鐘</span>
+                </div>
+                <input type="range" min="15" max="180" step="15" value="45" id="durationInput" oninput="updateDuration(this.value)" class="w-full accent-pink-500 h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer">
+                
+                <div class="mt-2 p-3 bg-pink-50/80 rounded-2xl border border-pink-200 flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-2xl leading-none">🥧</span>
+                        <div>
+                            <p class="text-[11px] font-extrabold text-slate-800 leading-tight">估算消耗：<span id="calorieValue" class="text-pink-600 font-black">270</span> kcal</p>
+                            <p class="text-[10px] font-bold text-slate-500 leading-tight" id="foodEquivalentText">相等於抵銷咗 1.2 個葡撻 / 蛋撻</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location Picker -->
+            <div>
+                <div class="flex justify-between items-center mb-1.5">
+                    <label class="text-xs font-bold text-slate-500 uppercase tracking-wider">打卡地點 Location</label>
+                    <button type="button" onclick="detectGPSLocation()" class="text-[10px] bg-blue-50 text-blue-600 font-bold px-2.5 py-1 rounded-xl border border-blue-200 flex items-center space-x-1">
+                        <i class="fa-solid fa-crosshairs text-xs"></i>
+                        <span>GPS 自動定位</span>
+                    </button>
+                </div>
+                <select id="locationSelect" class="w-full bg-slate-50 border-2 border-slate-200 rounded-2xl p-2.5 text-xs font-bold text-slate-700 outline-none">
+                    <option value="📍 Pure Fitness (蘭桂坊/icbc)">📍 Pure Fitness (健身室)</option>
+                    <option value="📍 維多利亞公園 Victoria Park">📍 維多利亞公園 (戶外跑)</option>
+                    <option value="📍 觀塘海濱花園 Promenade">📍 觀塘海濱花園</option>
+                </select>
+            </div>
+
+            <!-- Submit Button -->
+            <button onclick="submitWorkout()" class="w-full theme-btn-primary font-bold py-3.5 rounded-2xl duo-btn text-base flex items-center justify-center space-x-2">
+                <i class="fa-solid fa-check"></i>
+                <span>完成找數！領取 +50 XP</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- THEME SELECTION MODAL -->
+    <div id="themeModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-lg text-slate-800">選擇 App 主題色彩</h3>
+                <button onclick="closeThemeModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="grid grid-cols-2 gap-3 text-xs font-bold">
+                <button onclick="changeAppTheme('pink-blue')" class="p-3 rounded-2xl border-2 border-pink-400 bg-pink-50 text-pink-600 duo-btn">粉紅/寶藍</button>
+                <button onclick="changeAppTheme('mint')" class="p-3 rounded-2xl border-2 border-emerald-400 bg-emerald-50 text-emerald-600 duo-btn">薄荷青綠</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- iOS INSTALL MODAL -->
+    <div id="iosInstallModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-end sm:items-center justify-center p-0 sm:p-4">
+        <div class="bg-white w-full max-w-md rounded-t-3xl sm:rounded-3xl p-5 space-y-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="font-bold text-lg text-slate-800">安裝至 iPhone 主畫面</h3>
+                <button onclick="closeIosInstallModal()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-xl"></i></button>
+            </div>
+            <div class="space-y-2 text-xs text-slate-600 font-semibold">
+                <p>1. 用 <strong>Safari 瀏覽器</strong> 開啟本連結。</p>
+                <p>2. 點擊 Safari 底部選單嘅 <strong>分享按鈕 <i class="fa-solid fa-share-from-square text-blue-500"></i></strong>。</p>
+                <p>3. 選擇 <strong>「加至主畫面」 (Add to Home Screen)</strong>。</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION SYSTEM -->
+    <div id="toast" class="fixed top-5 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-4 py-2.5 rounded-full font-bold text-xs shadow-xl hidden z-50 flex items-center space-x-2">
+        <span id="toastMsg">Notification</span>
+    </div>
+
+    <!-- APPLICATION SCRIPTS -->
+    <script>
+        let currentLang = 'cantonese';
+        let userStreak = 3;
+        let userXP = 350;
+        let userProfile = { name: '你', avatar: '🐾', height: 170, weight: 65 };
+        let weeklyMinsDone = 75;
+        let weeklyTargetMins = 150;
+        let loggedCalendarDates = [12, 15, 18, 21, 24, 27];
+        let selectedCategory = "Chest & Arms";
+        let selectedCategoryEmoji = "💪";
+        let selectedDuration = 45;
+        let MET = 6.0;
+
+        const sportMETs = {
+            'Volleyball': 5.0,
+            'Pickleball': 6.0,
+            'Chest & Arms': 6.0,
+            'Cardio & Run': 8.5
+        };
+
+        let feedPosts = [
+            { id: 101, user: 'Alex', avatar: '🐶', type: 'Cardio & Run', emoji: '🏃', duration: 45, location: '📍 維多利亞公園 Victoria Park', photo: 'https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?auto=format&fit=crop&w=400&q=80', time: '10分鐘前' }
+        ];
+
+        function scrollToTop() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+        function openWorkoutModal() { document.getElementById('workoutModal').classList.remove('hidden'); }
+        function closeWorkoutModal() { document.getElementById('workoutModal').classList.add('hidden'); }
+        function openProfileModal() { document.getElementById('profileModal').classList.remove('hidden'); }
+        function closeProfileModal() { document.getElementById('profileModal').classList.add('hidden'); }
+        function openThemeModal() { document.getElementById('themeModal').classList.remove('hidden'); }
+        function closeThemeModal() { document.getElementById('themeModal').classList.add('hidden'); }
+        function openIosInstallModal() { document.getElementById('iosInstallModal').classList.remove('hidden'); }
+        function closeIosInstallModal() { document.getElementById('iosInstallModal').classList.add('hidden'); }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => toast.classList.add('hidden'), 2500);
+        }
+
+        function calculateHealthTarget() {
+            const hInM = userProfile.height / 100;
+            const bmi = userProfile.weight / (hInM * hInM);
+
+            const iconEl = document.getElementById('bodyMascotIcon');
+            const titleEl = document.getElementById('bodyMascotTitle');
+
+            if (bmi < 18.5) {
+                iconEl.innerText = "🐿️";
+                titleEl.innerText = "靈巧松鼠型 ⚡";
+            } else if (bmi >= 18.5 && bmi < 23) {
+                iconEl.innerText = "🐆";
+                titleEl.innerText = "迅捷飛豹型 ⚡";
+            } else if (bmi >= 23 && bmi < 25) {
+                iconEl.innerText = "🐻";
+                titleEl.innerText = "強壯熊貓型 🐻";
+            } else {
+                iconEl.innerText = "🐼";
+                titleEl.innerText = "重量級功夫熊貓 🐼";
+            }
+
+            weeklyTargetMins = bmi >= 23 ? 180 : 150;
+            updateTargetUI();
+        }
+
+        function updateTargetUI() {
+            const pct = Math.min(100, Math.round((weeklyMinsDone / weeklyTargetMins) * 100));
+            document.getElementById('weeklyMinsDone').innerText = weeklyMinsDone;
+            document.getElementById('weeklyMinsTarget').innerText = weeklyTargetMins;
+            document.getElementById('targetProgressBar').style.width = pct + '%';
+            document.getElementById('targetPercentText').innerText = pct + '%';
+            document.getElementById('targetCirclePath').setAttribute('stroke-dasharray', `${pct}, 100`);
+        }
+
+        function renderMonthlyCalendar() {
+            const grid = document.getElementById('calendarDaysGrid');
+            if (!grid) return;
+            let html = '';
+            for (let i = 0; i < 3; i++) html += `<div class="p-2 text-slate-200 text-center font-bold text-xs">-</div>`;
+
+            const currentMascot = document.getElementById('bodyMascotIcon').innerText || "🐾";
+
+            for (let day = 1; day <= 31; day++) {
+                const isLogged = loggedCalendarDates.includes(day);
+                if (isLogged) {
+                    html += `
+                        <div class="bg-pink-100 border-2 border-pink-400 rounded-2xl p-1 flex flex-col items-center justify-center text-xs font-black text-pink-700 shadow-sm">
+                            <span>${day}</span>
+                            <span class="text-xs leading-none mt-0.5">${currentMascot}</span>
+                        </div>
+                    `;
+                } else {
+                    html += `
+                        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-1.5 flex flex-col items-center justify-center text-xs font-bold text-slate-400">
+                            <span>${day}</span>
+                        </div>
+                    `;
+                }
+            }
+            grid.innerHTML = html;
+        }
+
+        function renderFeed() {
+            const container = document.getElementById('workoutFeed');
+            if (!container) return;
+            let html = '';
+            feedPosts.forEach(post => {
+                html += `
+                    <div class="bg-white rounded-2xl p-3 border border-slate-200 shadow-sm space-y-2">
+                        <div class="flex justify-between items-center">
+                            <div class="flex items-center space-x-2">
+                                <span class="text-2xl">${post.avatar}</span>
+                                <div>
+                                    <h4 class="font-bold text-xs text-slate-800">${post.user}</h4>
+                                    <p class="text-[10px] text-slate-400 font-bold">${post.time} • ${post.location}</p>
+                                </div>
+                            </div>
+                            <span class="bg-pink-50 text-pink-600 font-black text-xs px-2.5 py-1 rounded-xl border border-pink-200">
+                                ${post.emoji} ${post.type} (${post.duration}分鐘)
+                            </span>
+                        </div>
+                        ${post.photo ? `<img src="${post.photo}" class="w-full h-40 object-cover rounded-xl border border-slate-100">` : ''}
+                    </div>
+                `;
+            });
+            container.innerHTML = html;
+        }
+
+        function selectType(btn, name, emoji) {
+            document.querySelectorAll('.workout-type-btn').forEach(b => {
+                b.classList.remove('border-pink-500', 'bg-pink-50');
+                b.classList.add('border-slate-200', 'bg-slate-50');
+            });
+            btn.classList.remove('border-slate-200', 'bg-slate-50');
+            btn.classList.add('border-pink-500', 'bg-pink-50');
+
+            selectedCategory = name;
+            selectedCategoryEmoji = emoji;
+            MET = sportMETs[name] || 6.0;
+            calculateCalories();
+        }
+
+        function handleCustomSportInput(val) {
+            if (val.trim() !== "") {
+                selectedCategory = val;
+                selectedCategoryEmoji = "⚡";
+            }
+        }
+
+        function updateDuration(val) {
+            selectedDuration = parseInt(val);
+            document.getElementById('durationValue').innerText = val + " 分鐘";
+            calculateCalories();
+        }
+
+        function calculateCalories() {
+            const hours = selectedDuration / 60;
+            const weight = userProfile.weight || 65;
+            const cals = Math.round(MET * weight * hours);
+            document.getElementById('calorieValue').innerText = cals;
+            const eggTarts = (cals / 220).toFixed(1);
+            document.getElementById('foodEquivalentText').innerText = `相等於抵銷咗 ${eggTarts} 個葡撻 / 蛋撻 🥧`;
+        }
+
+        function detectGPSLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    const loc = `📍 GPS (${pos.coords.latitude.toFixed(3)}, ${pos.coords.longitude.toFixed(3)})`;
+                    showToast('已取得 GPS 定位：' + loc);
+                }, () => {
+                    showToast('📍 已選擇 Pure Fitness (蘭桂坊)');
+                });
+            } else {
+                showToast('📍 已選擇 Pure Fitness (蘭桂坊)');
+            }
+        }
+
+        function submitWorkout() {
+            const photoInput = document.getElementById('workoutPhotoInput');
+            let photoUrl = 'https://images.unsplash.com/photo-1517838277536-f5f99be501cd?auto=format&fit=crop&w=400&q=80';
+
+            if (photoInput.files && photoInput.files[0]) {
+                photoUrl = URL.createObjectURL(photoInput.files[0]);
+            }
+
+            userStreak += 1;
+            userXP += 50;
+            weeklyMinsDone += selectedDuration;
+            loggedCalendarDates.push(new Date().getDate());
+
+            document.getElementById('userStreak').innerText = userStreak;
+            document.getElementById('userXP').innerText = userXP;
+
+            feedPosts.unshift({
+                id: Date.now(),
+                user: userProfile.name,
+                avatar: userProfile.avatar,
+                type: selectedCategory,
+                emoji: selectedCategoryEmoji,
+                duration: selectedDuration,
+                location: document.getElementById('locationSelect').value,
+                photo: photoUrl,
+                time: '剛剛'
+            });
+
+            closeWorkoutModal();
+            updateTargetUI();
+            renderMonthlyCalendar();
+            renderFeed();
+            showToast('🎉 恭喜完成運動找數！+50 XP');
+        }
+
+        function saveUserProfile() {
+            const name = document.getElementById('profileNameInput').value || '你';
+            const h = parseFloat(document.getElementById('profileHeightInput').value) || 170;
+            const w = parseFloat(document.getElementById('profileWeightInput').value) || 65;
+            
+            userProfile.name = name;
+            userProfile.height = h;
+            userProfile.weight = w;
+
+            document.getElementById('userProfileNameDisplay').innerText = name;
+
+            calculateHealthTarget();
+            renderMonthlyCalendar();
+            closeProfileModal();
+            showToast('個人檔案已更新！');
+        }
+
+        function changeAppTheme(theme) {
+            document.body.setAttribute('data-theme', theme);
+            closeThemeModal();
+            showToast('主題已更換！');
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'cantonese' ? 'english' : 'cantonese';
+            document.getElementById('langBtn').innerText = currentLang === 'cantonese' ? '廣東話' : 'English';
+            showToast(currentLang === 'cantonese' ? '已切換為廣東話' : 'Switched to English');
+        }
+
+        function filterFeedByLocation(type) {
+            showToast('已篩選動態 Wall');
+        }
+
+        window.onload = function() {
+            calculateHealthTarget();
+            renderMonthlyCalendar();
+            renderFeed();
+        };
+    </script>
 </body>
 </html>
